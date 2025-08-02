@@ -11,8 +11,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#8b5cf6',
-                        secondary: '#3b82f6',
+                    primary: '#ef4444',  // 主色调
+                    secondary: '#f97316', // 辅助色
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -38,12 +38,53 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 背景样式设置 */
+        body {
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            background-color: #000; /* 初始黑色背景 */
+        }
+        
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            opacity: 0; /* 初始隐藏背景图 */
+            transition: opacity 1.5s ease-in-out; /* 渐变过渡效果 */
+        }
+        
+        .background-blur {
+            width: 100%;
+            height: 100%;
+            background-image: url('https://rpic.origz.com/api.php?category=aesthetic'); //这里是背景来源，目前是随机图片api
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px); //背景透明度
+            transform: scale(1.05);
+        }
+        
+        /* 图片加载完成后添加此类显示背景 */
+        .background-loaded {
+            opacity: 1;
+        }
+    </style>
 </head>
-<body class="min-h-screen bg-cover bg-center bg-no-repeat text-white" style="background-image: url('https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/background.png'); height: 100vh; overflow-x: hidden; margin: 0;">
-    <!-- 导航栏 - 增高的毛玻璃效果，贴浏览器边框 -->
-    <nav class="glass-effect fixed top-0 left-0 right-0 z-50 py-6">
+<body class="text-white">
+    <!-- 背景容器 -->
+    <div class="background-container">
+        <div class="background-blur"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="glass-effect fixed top-0 left-0 right-0 z-50 py-4">
         <div class="flex justify-between items-center w-full">
-            <!-- 左上角：图标和名称 - 放大一倍并贴浏览器左边框 -->
             <div class="flex items-center gap-4 ml-4 sm:ml-6">
                 <div class="text-4xl text-primary">
                    <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" alt="FirefairyZz的头像" class="relative w-12 h-12 rounded-full object-cover border-2 border-white/20">
@@ -51,23 +92,19 @@
                 <span class="text-3xl font-bold tracking-wide">FirefairyZz</span>
             </div>
             
-            <!-- 右上角：导航栏目 - 贴浏览器右边框 -->
             <div class="hidden md:flex items-center gap-2 sm:gap-5 md:gap-7 lg:gap-9 mr-4 sm:mr-6">
                 <a href="#" class="hover:text-primary transition-colors duration-300 text-lg">home</a>
                 <a href="#" class="hover:text-primary transition-colors duration-300 text-lg">栏目1</a>
                 <a href="#" class="hover:text-primary transition-colors duration-300 text-lg">栏目2</a>
                 <a href="#" class="hover:text-primary transition-colors duration-300 text-lg">栏目3</a>
-                <!-- 联系按钮缩小背景 -->
                 <a href="#" class="bg-primary/80 hover:bg-primary text-white px-3.5 py-1.5 rounded-full transition-all duration-300 transform hover:scale-105 text-lg">联系</a>
             </div>
             
-            <!-- 移动端菜单按钮 - 放大以保持比例 -->
             <button class="md:hidden text-2xl mr-4" id="menuBtn">
                 <i class="fa fa-bars"></i>
             </button>
         </div>
         
-        <!-- 移动端菜单 -->
         <div class="md:hidden hidden glass-effect rounded-b-lg p-4 mx-4" id="mobileMenu">
             <div class="flex flex-col gap-4">
                 <a href="#" class="hover:text-primary transition-colors duration-300 py-2 border-b border-white/10">home</a>
@@ -79,26 +116,21 @@
         </div>
     </nav>
 
-    <!-- 主内容区 - 调整为居中显示介绍框 -->
-    <main class="h-full flex items-center justify-center pt-32 pb-10 px-4 sm:px-6">
-        <!-- 介绍框 - 毛玻璃风格圆角矩形，居中显示 -->
-        <div class="glass-effect rounded-2xl p-8 max-w-4xl w-full transform transition-all duration-500 hover:scale-[1.01]">
-            <!-- 头部信息：头像和名称 -->
+    <!-- 主内容区 - 确保介绍框居中 -->
+    <main class="h-screen flex items-center justify-center pt-24 pb-10 px-4 sm:px-6">
+        <div class="glass-effect rounded-2xl p-8 max-w-4xl w-full mx-auto transform transition-all duration-500 hover:scale-[1.01]">
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8">
-                <!-- 头像 -->
                 <div class="relative">
                     <div class="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-full blur-md opacity-50"></div>
                     <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" alt="FirefairyZz的头像" class="relative w-32 h-32 rounded-full object-cover border-4 border-white/20">
                 </div>
                 
-                <!-- 名称和个性签名 -->
                 <div>
                     <h1 class="text-3xl md:text-4xl font-bold text-shadow mb-2">FirefairyZz</h1>
                     <p class="text-lg text-white/80">❤️🥰😭😵‍💫🧐</p>
                 </div>
             </div>
             
-            <!-- 个人简介 -->
             <div class="text-white/90 leading-relaxed text-lg">
                 <p class="mb-4">
                     大家好！我是FirefairyZz，欢迎来到我的个人网站。我是热爱生活、追求卓越，愿意在自己的领域发光发热。
@@ -111,7 +143,6 @@
                 </p>
             </div>
             
-            <!-- 社交媒体链接 -->
             <div class="mt-8 flex gap-4 justify-center">
                 <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-primary/80 transition-all duration-300">
                     <i class="fa fa-weibo"></i>
@@ -141,7 +172,6 @@
         
         menuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            // 切换图标
             const icon = menuBtn.querySelector('i');
             if (icon.classList.contains('fa-bars')) {
                 icon.classList.replace('fa-bars', 'fa-times');
@@ -150,7 +180,7 @@
             }
         });
 
-        // 滚动时导航栏效果变化 - 调整高度变化参数
+        // 滚动时导航栏效果变化
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 50) {
@@ -160,6 +190,30 @@
                 nav.classList.add('py-6');
                 nav.classList.remove('py-3');
             }
+        });
+
+        // 背景图片加载与渐变效果
+        document.addEventListener('DOMContentLoaded', () => {
+            // 创建一个隐藏的img元素用于预加载背景图
+            const img = new Image();
+            const backgroundUrl = 'https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/background.png';
+            const backgroundContainer = document.querySelector('.background-container');
+            
+            // 监听图片加载完成事件
+            img.onload = () => {
+                // 图片加载完成后，添加类以触发渐变效果
+                backgroundContainer.classList.add('background-loaded');
+            };
+            
+            // 设置图片源开始加载
+            img.src = backgroundUrl;
+            
+            // 处理图片加载失败的情况
+            img.onerror = () => {
+                console.log('背景图片加载失败');
+                // 加载失败也显示背景容器（可能是破损图片图标）
+                backgroundContainer.classList.add('background-loaded');
+            };
         });
     </script>
 </body>
