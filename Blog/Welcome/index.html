@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客 - FirefairyZz</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#ef4444', accent: '#f97316' },
+                    fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { min-height: 100vh; overflow-x: hidden; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        .bg-gradient-layer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 50%, #dce1eb 100%); }
+        .bg-image-layer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; opacity: 0; transition: opacity 1.2s ease; background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .bg-image-layer.loaded { opacity: 0.35; }
+        .bg-image-layer::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(245,247,250,0.85) 0%, rgba(228,232,240,0.70) 100%); }
+        .nav-blur { background: rgba(255,255,255,0.70); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .nav-link { position: relative; color: #555; font-weight: 450; transition: color 0.25s ease; text-decoration: none; }
+        .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #ef4444; transition: width 0.3s ease; border-radius: 1px; }
+        .nav-link:hover { color: #ef4444; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #ef4444; }
+        .nav-link.active::after { width: 100%; }
+        .btn-primary { background: #ef4444; color: #fff; padding: 8px 22px; border-radius: 999px; font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: #dc2626; box-shadow: 0 4px 16px rgba(239,68,68,0.30); transform: translateY(-1px); }
+        .avatar-ring { position: relative; display: inline-block; }
+        .avatar-ring::before { content: ''; position: absolute; inset: -3px; border-radius: 50%; background: linear-gradient(135deg, #ef4444, #f97316, #f59e0b); opacity: 0.6; }
+        .mobile-menu { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+        footer { background: rgba(255,255,255,0.60); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,0.04); }
+        .detail-card { background: rgba(255,255,255,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5); border-radius: 24px; box-shadow: 0 4px 24px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.02); }
+        .tag { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 500; background: rgba(239,68,68,0.08); color: #ef4444; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: #666; text-decoration: none; font-size: 0.9rem; transition: all 0.25s ease; }
+        .back-link:hover { color: #ef4444; gap: 10px; }
+        .project-content h2 { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-top: 2rem; margin-bottom: 0.75rem; }
+        .project-content h3 { font-size: 1.1rem; font-weight: 600; color: #374151; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .project-content p { color: #4b5563; line-height: 1.7; margin-bottom: 1rem; }
+        .project-content ul, .project-content ol { margin-bottom: 1rem; padding-left: 1.5rem; color: #4b5563; }
+        .project-content a { color: #ef4444; text-decoration: underline; }
+        .project-content img { max-width: 100%; border-radius: 12px; margin: 1rem 0; }
+        .project-content pre { background: #f3f4f6; padding: 1rem; border-radius: 12px; overflow-x: auto; margin-bottom: 1rem; }
+        .project-content code { background: #f3f4f6; padding: 0.2em 0.4em; border-radius: 4px; font-size: 0.9em; }
+        .project-content blockquote { border-left: 4px solid #ef4444; padding-left: 1rem; color: #6b7280; margin: 1rem 0; }
+
+        .github-btn, .afdian-btn {
+            display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 500;
+            padding: 0 20px; height: 42px; line-height: 1; border-radius: 12px; transition: all 0.3s;
+            text-decoration: none !important; margin-right: 10px; margin-bottom: 10px; vertical-align: middle;
+        }
+        .github-btn { background: #1f2937 !important; color: #fff !important; }
+        .github-btn:hover { background: #374151 !important; }
+        .afdian-btn { background: #ffffff !important; color: #8E67DB !important; border: 2px solid #8E67DB !important; }
+        .afdian-btn:hover { background: #f5f0ff !important; border-color: #7c5cbf !important; color: #7c5cbf !important; }
+        .afdian-icon { height: 20px; width: auto; }
+
+        .icon-feature { display: flex; align-items: flex-start; gap: 12px; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
+        .icon-feature:last-child { border-bottom: none; }
+        .icon-feature .feature-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(239,68,68,0.08); color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+
+        .tech-frame { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 1rem; }
+        .tech-frame .tech-item { background: #f9fafb; border-radius: 12px; padding: 16px; text-align: center; font-size: 0.9rem; }
+        .tech-item .tech-name { font-weight: 600; color: #1f2937; }
+        .tech-item .tech-desc { color: #9ca3af; font-size: 0.8rem; margin-top: 4px; }
+
+        @media (max-width: 640px) { .detail-card { border-radius: 20px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient-layer"></div>
+    <div class="bg-image-layer" id="bgImage"></div>
+
+    <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+        <div class="flex items-center justify-between h-16 px-5 sm:px-8 max-w-6xl mx-auto">
+            <a href="../../index.html" class="flex items-center gap-3 no-underline">
+                <div class="avatar-ring">
+                    <img src="../../images/face.jpg" alt="头像" class="relative w-9 h-9 rounded-full object-cover border-2 border-white"
+                         onerror="this.src='https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg'">
+                </div>
+                <span class="text-lg font-semibold text-gray-800 tracking-tight">FirefairyZz</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="../../index.html" class="nav-link text-sm">首页</a>
+                <a href="../../projects.html" class="nav-link text-sm">项目</a>
+                <a href="../../blog.html" class="nav-link active text-sm">博客</a>
+                <a href="../../about.html" class="nav-link text-sm">关于</a>
+            </div>
+            <div class="hidden md:block">
+                <a href="../../contact.html" class="btn-primary text-sm">联系我</a>
+            </div>
+            <button class="md:hidden text-gray-600 text-xl p-1" id="menuBtn">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="md:hidden hidden mx-4 mb-3 mobile-menu overflow-hidden" id="mobileMenu">
+            <div class="flex flex-col">
+                <a href="../../index.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">首页</a>
+                <a href="../../projects.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">项目</a>
+                <a href="../../blog.html" class="nav-link active block px-4 py-3 text-sm border-b border-black/5">博客</a>
+                <a href="../../about.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">关于</a>
+                <a href="../../contact.html" class="block px-4 py-3 text-sm text-primary font-medium">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen px-5 sm:px-8 pt-28 pb-24">
+        <div class="max-w-4xl mx-auto">
+            <a href="../../blog.html" class="back-link mb-8">
+                <i class="fa fa-arrow-left" style="font-size:0.8rem"></i> 返回博客列表
+            </a>
+            <div id="article-detail">
+                <div class="text-center text-gray-400 py-20"><i class="fa fa-spinner fa-pulse"></i> 加载中...</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-gray-400 text-xs">
+        <p>&copy; 2024 FirefairyZz &mdash; 练习作品</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        (function loadBackground() {
+            const bg = document.getElementById('bgImage');
+            const img = new Image();
+            img.src = 'https://uapis.cn/api/v1/random/image';
+            img.onload = () => { bg.style.backgroundImage = 'url(' + img.src + ')'; bg.classList.add('loaded'); };
+        })();
+
+        function getArticleName() {
+            const pathParts = window.location.pathname.split('/').filter(p => p.length > 0);
+            let idx = pathParts.length - 1;
+            if (pathParts[idx] === 'index.html') idx = pathParts.length - 2;
+            return pathParts[idx] || '';
+        }
+
+        function parseINI(iniText) {
+            const result = { title: '', date: '', tags: [], summary: '', show_image: false, image: '', full_image: false };
+            const lines = iniText.split('\n');
+            let currentSection = '';
+            for (let line of lines) {
+                line = line.trim();
+                if (line === '' || line.startsWith(';') || line.startsWith('#')) continue;
+                const secMatch = line.match(/^\[(.+)\]$/);
+                if (secMatch) { currentSection = secMatch[1].trim(); continue; }
+                const kvMatch = line.match(/^([^=]+)=(.*)$/);
+                if (kvMatch) {
+                    const key = kvMatch[1].trim();
+                    const value = kvMatch[2].trim();
+                    if (currentSection === 'Info') {
+                        if (key === 'title') result.title = value;
+                        else if (key === 'date') result.date = value;
+                        else if (key === 'summary') result.summary = value;
+                        else if (key === 'show_image') result.show_image = value.toLowerCase() === 'true';
+                        else if (key === 'image') result.image = value;
+                        else if (key === 'full_image') result.full_image = (value.toLowerCase() === 'true');
+                    } else if (currentSection === 'Tags') {
+                        if (/^\d+$/.test(key)) result.tags.push(value);
+                    }
+                }
+            }
+            return result;
+        }
+
+        function preprocessCustomTags(mdText) {
+            mdText = mdText.replace(/\[header_image\].*?\[\/header_image\]\s*/g, '');
+            mdText = mdText.replace(/\[tag\].*?\[\/tag\]\s*/g, '');
+            mdText = mdText.replace(/\[githublink\](.*?)\[\/githublink\]\((.*?)\)/g, (m, text, url) => `<a href="${url}" target="_blank" class="github-btn"><i class="fa fa-github"></i> ${text}</a>`);
+            mdText = mdText.replace(/\[afdian\](.*?)\[\/afdian\]\((.*?)\)/g, (m, text, url) => `<a href="${url}" target="_blank" class="afdian-btn"><img src="https://static.afdiancdn.com/static/img/logo/logo.png" alt="爱发电" class="afdian-icon"> ${text}</a>`);
+            const iconNameMap = { 'write': 'pencil-square-o', 'branch': 'code-fork', 'paintbrush': 'paint-brush', 'earth': 'globe' };
+            mdText = mdText.replace(/\[icon\](.*?)\[\/icon\]\s*\{(.*?)\}/gs, (m, iconParams, content) => {
+                const parts = iconParams.split(';');
+                let iconName = parts[0]?.trim() || 'star';
+                iconName = iconNameMap[iconName] || iconName;
+                const color = parts[1]?.trim() || '#ef4444';
+                // 按行分割，每行独立解析，再用 <br> 连接，实现换行
+                const lines = content.trim().split('\n');
+                const parsedLines = lines.map(line => marked.parseInline(line.trim()));
+                const parsedContent = parsedLines.join('<br>');
+                return `<div class="icon-feature">
+                    <div class="feature-icon" style="background:${color}20; color:${color}"><i class="fa fa-${iconName}"></i></div>
+                    <div>${parsedContent}</div>
+                </div>`;
+            });
+            mdText = mdText.replace(/\[frame\](.*?)\[\/frame\]/gs, (m, frameContent) => {
+                const items = frameContent.split('|').map(s => s.trim());
+                let html = '<div class="tech-frame">';
+                items.forEach(item => {
+                    const [name, desc] = item.split('\\').map(s => s.trim());
+                    html += `<div class="tech-item"><div class="tech-name">${name}</div><div class="tech-desc">${desc || ''}</div></div>`;
+                });
+                html += '</div>';
+                return html;
+            });
+            return mdText;
+        }
+
+        async function loadArticle() {
+            const container = document.getElementById('article-detail');
+            const articleName = getArticleName();
+            if (!articleName) {
+                container.innerHTML = '<p class="text-red-400 text-center py-10">无法识别文章</p>';
+                return;
+            }
+            try {
+                const iniRes = await fetch('Intro.ini');
+                if (!iniRes.ok) throw new Error('找不到 Intro.ini');
+                const iniText = await iniRes.text();
+                const info = parseINI(iniText);
+
+                const mdRes = await fetch(`${articleName}.md`);
+                if (!mdRes.ok) throw new Error(`找不到 ${articleName}.md`);
+                let mdText = await mdRes.text();
+                mdText = preprocessCustomTags(mdText);
+                const htmlContent = marked.parse(mdText);
+
+                document.title = `${info.title || articleName} - FirefairyZz`;
+
+                // 构建头图部分（如果 show_image = true 且 image 存在）
+                let coverHTML = '';
+                if (info.show_image && info.image) {
+                    const fitStyle = info.full_image ? 'contain' : 'cover';
+                    const bgColor = info.full_image ? '#f0f0f0' : '#e8ecf2';
+                    coverHTML = `
+                    <div class="detail-card overflow-hidden mb-8">
+                        <img src="${info.image}" alt="${info.title} 封面"
+                             class="w-full h-48 sm:h-72" style="object-fit: ${fitStyle}; background: ${bgColor}"
+                             onerror="this.style.display='none'; this.parentNode.innerHTML='<div class=\\'w-full h-48 sm:h-72 bg-gray-200 flex items-center justify-center text-gray-400\\'>暂无封面</div>'">
+                    </div>`;
+                }
+
+                container.innerHTML = `
+                    ${coverHTML}
+                    <div class="detail-card p-6 sm:p-10">
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            ${(info.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight mb-2">${info.title}</h1>
+                        <p class="text-gray-400 text-sm mb-6">${info.date || ''}</p>
+                        <div class="project-content">${htmlContent}</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<p class="text-red-400 text-center py-10">加载失败：${error.message}</p>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadArticle);
+    </script>
+</body>
+</html>

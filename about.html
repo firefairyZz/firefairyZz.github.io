@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于 - FirefairyZz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ef4444',
+                        accent: '#f97316',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        .bg-gradient-layer {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 50%, #dce1eb 100%);
+        }
+        .bg-image-layer {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
+            opacity: 0; transition: opacity 1.2s ease;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        .bg-image-layer.loaded { opacity: 0.28; }
+        .bg-image-layer::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(245,247,250,0.88) 0%, rgba(228,232,240,0.72) 100%);
+        }
+        .nav-blur {
+            background: rgba(255,255,255,0.70); backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .nav-link {
+            position: relative; color: #555; font-weight: 450; transition: color 0.25s ease; text-decoration: none;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: #ef4444; transition: width 0.3s ease; border-radius: 1px;
+        }
+        .nav-link:hover { color: #ef4444; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #ef4444; }
+        .nav-link.active::after { width: 100%; }
+        .btn-primary {
+            background: #ef4444; color: #fff; padding: 8px 22px; border-radius: 999px;
+            font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover { background: #dc2626; box-shadow: 0 4px 16px rgba(239,68,68,0.30); transform: translateY(-1px); }
+        .avatar-ring { position: relative; display: inline-block; }
+        .avatar-ring::before {
+            content: ''; position: absolute; inset: -3px; border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #f97316, #f59e0b); opacity: 0.6;
+        }
+        .mobile-menu {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
+        footer {
+            background: rgba(255,255,255,0.60); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,0.04);
+        }
+        .glass-card {
+            background: rgba(255,255,255,0.72); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.02);
+            transition: all 0.35s ease;
+        }
+        .glass-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04); border-color: rgba(239,68,68,0.12); }
+        .skill-tag {
+            display: inline-block; padding: 5px 14px; border-radius: 999px; font-size: 0.82rem;
+            font-weight: 500; background: rgba(239,68,68,0.07); color: #ef4444;
+            border: 1px solid rgba(239,68,68,0.15); transition: all 0.25s ease; cursor: default;
+        }
+        .skill-tag:hover { background: rgba(239,68,68,0.14); border-color: rgba(239,68,68,0.30); transform: translateY(-1px); }
+        .social-icon-link {
+            display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+            border-radius: 50%; background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.08);
+            color: #555; font-size: 1.1rem; transition: all 0.3s ease; text-decoration: none;
+        }
+        .social-icon-link:hover { background: #ef4444; color: #fff; border-color: #ef4444; box-shadow: 0 4px 16px rgba(239,68,68,0.25); transform: translateY(-2px); }
+        .timeline-dot {
+            width: 12px; height: 12px; border-radius: 50%; background: #ef4444; flex-shrink: 0;
+            box-shadow: 0 0 0 4px rgba(239,68,68,0.15); position: relative; z-index: 1;
+        }
+        .timeline-line {
+            position: absolute; left: 5px; top: 20px; bottom: -16px; width: 2px;
+            background: rgba(0,0,0,0.08); border-radius: 1px;
+        }
+        .timeline-item:last-child .timeline-line { display: none; }
+        @media (max-width: 640px) {
+            .glass-card { border-radius: 16px; }
+            .skill-tag { font-size: 0.75rem; padding: 4px 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient-layer"></div>
+    <div class="bg-image-layer" id="bgImage"></div>
+
+    <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+        <div class="flex items-center justify-between h-16 px-5 sm:px-8 max-w-6xl mx-auto">
+            <a href="index.html" class="flex items-center gap-3 no-underline">
+                <div class="avatar-ring">
+                    <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" alt="头像" class="relative w-9 h-9 rounded-full object-cover border-2 border-white">
+                </div>
+                <span class="text-lg font-semibold text-gray-800 tracking-tight">FirefairyZz</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link text-sm">首页</a>
+                <a href="projects.html" class="nav-link text-sm">项目</a>
+                <a href="blog.html" class="nav-link text-sm">博客</a>
+                <a href="about.html" class="nav-link active text-sm">关于</a>
+            </div>
+            <div class="hidden md:block">
+                <a href="contact.html" class="btn-primary text-sm">联系我</a>
+            </div>
+            <button class="md:hidden text-gray-600 text-xl p-1" id="menuBtn">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="md:hidden hidden mx-4 mb-3 mobile-menu overflow-hidden" id="mobileMenu">
+            <div class="flex flex-col">
+                <a href="index.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">首页</a>
+                <a href="projects.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">项目</a>
+                <a href="blog.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">博客</a>
+                <a href="about.html" class="nav-link active block px-4 py-3 text-sm border-b border-black/5">关于</a>
+                <a href="contact.html" class="block px-4 py-3 text-sm text-primary font-medium">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen px-5 sm:px-8 pt-28 pb-28">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 tracking-tight">关于我</h1>
+                <p class="text-gray-500 mt-2 text-sm">一个还在不断摸索的开发者 👋</p>
+            </div>
+
+            <!-- 个人简介卡片 -->
+            <div class="glass-card p-6 sm:p-8 mb-8">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                    <div class="flex-shrink-0">
+                        <div class="avatar-ring">
+                            <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" alt="头像" class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-3 border-white shadow-md">
+                        </div>
+                    </div>
+                    <div class="text-center sm:text-left flex-1">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-1">FirefairyZz</h2>
+                        <p class="text-primary font-medium text-sm mb-3">喜欢鼓捣代码的普通人</p>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                            写代码是我最大的爱好，平时会试着做一些小工具、小页面，虽然不一定很厉害，但做出来就挺开心。
+                            目前还在不断学习，希望能把东西做得更实用一点。
+                        </p>
+                        <p class="text-gray-500 text-sm leading-relaxed">
+                            这个网站就是我的试验田，记录一些做过的东西和偶尔的想法。如果你也喜欢这些，欢迎一起交流。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技能 & 社交 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="glass-card p-6 sm:p-7">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fa fa-code text-primary"></i> 正在使用 / 学过
+                    </h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Vue.js</span>
+                        <span class="skill-tag">Electron</span>
+                        <span class="skill-tag">Tailwind</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Node.js 基础</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">一点点 React</span>
+                        <span class="skill-tag">SQL 基础</span>
+                        <span class="skill-tag">Figma (学习中)</span>
+                    </div>
+                </div>
+                <div class="glass-card p-6 sm:p-7">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fa fa-link text-primary"></i> 找到我
+                    </h3>
+                    <p class="text-gray-500 text-sm mb-5 leading-relaxed">
+                        偶尔会在这些地方出没，欢迎来戳。
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="https://github.com/firefairyZz" target="_blank" rel="noopener" class="social-icon-link" title="GitHub"><i class="fa fa-github"></i></a>
+                        <a href="#" class="social-icon-link" title="邮箱"><i class="fa fa-envelope"></i></a>
+                        <a href="#" class="social-icon-link" title="博客"><i class="fa fa-book"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 简单的经历（时间线后推2年） -->
+            <div class="glass-card p-6 sm:p-8">
+                <h3 class="text-lg font-semibold text-gray-800 mb-5 flex items-center gap-2">
+                    <i class="fa fa-clock-o text-primary"></i> 一些微不足道的经历
+                </h3>
+                <div class="space-y-0">
+                    <div class="timeline-item relative pl-8 pb-6">
+                        <div class="timeline-dot absolute left-0 top-1.5"></div>
+                        <div class="timeline-line"></div>
+                        <span class="text-xs text-gray-400 font-medium">2026</span>
+                        <h4 class="text-sm font-semibold text-gray-800 mt-0.5">尝试用 Electron 做了个小工具</h4>
+                        <p class="text-gray-500 text-xs leading-relaxed mt-1">磕磕绊绊做出了 World Editor，勉强能用，还有很多要改进的地方。</p>
+                    </div>
+                    <div class="timeline-item relative pl-8 pb-6">
+                        <div class="timeline-dot absolute left-0 top-1.5"></div>
+                        <div class="timeline-line"></div>
+                        <span class="text-xs text-gray-400 font-medium">2025</span>
+                        <h4 class="text-sm font-semibold text-gray-800 mt-0.5">开始往 GitHub 上放东西</h4>
+                        <p class="text-gray-500 text-xs leading-relaxed mt-1">把一些练手的小项目传了上去，顺便学习别人怎么写代码。</p>
+                    </div>
+                    <div class="timeline-item relative pl-8 pb-6">
+                        <div class="timeline-dot absolute left-0 top-1.5"></div>
+                        <div class="timeline-line"></div>
+                        <span class="text-xs text-gray-400 font-medium">2024</span>
+                        <h4 class="text-sm font-semibold text-gray-800 mt-0.5">学习了前端基础</h4>
+                        <p class="text-gray-500 text-xs leading-relaxed mt-1">照着教程用 Vue 写了几个页面，算是入了门。</p>
+                    </div>
+                    <div class="timeline-item relative pl-8">
+                        <div class="timeline-dot absolute left-0 top-1.5"></div>
+                        <span class="text-xs text-gray-400 font-medium">更早</span>
+                        <h4 class="text-sm font-semibold text-gray-800 mt-0.5">被 Python 带进门</h4>
+                        <p class="text-gray-500 text-xs leading-relaxed mt-1">写了一些小脚本，第一次觉得编程还挺有意思的。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-gray-400 text-xs">
+        <p>&copy; 2024 FirefairyZz &mdash; 练习作品</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        (function loadBackground() {
+            const bg = document.getElementById('bgImage');
+            const img = new Image();
+            img.src = 'https://uapis.cn/api/v1/random/image';
+            img.onload = () => {
+                bg.style.backgroundImage = 'url(' + img.src + ')';
+                bg.classList.add('loaded');
+            };
+        })();
+    </script>
+</body>
+</html>

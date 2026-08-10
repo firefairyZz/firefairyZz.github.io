@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FirefairyZz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ef4444',
+                        accent: '#f97316',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        /* ===== 背景系统 ===== */
+        .bg-gradient-layer {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -2;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 50%, #dce1eb 100%);
+        }
+
+        .bg-image-layer {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .bg-image-layer.loaded {
+            opacity: 0.35;
+        }
+
+        .bg-image-layer::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(245,247,250,0.85) 0%, rgba(228,232,240,0.70) 100%);
+        }
+
+        /* ===== 卡片 ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        /* ===== 导航栏 ===== */
+        .nav-blur {
+            background: rgba(255, 255, 255, 0.70);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-link {
+            position: relative;
+            color: #555;
+            font-weight: 450;
+            transition: color 0.25s ease;
+            text-decoration: none;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ef4444;
+            transition: width 0.3s ease;
+            border-radius: 1px;
+        }
+        .nav-link:hover {
+            color: #ef4444;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #ef4444;
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: #ef4444;
+            color: #fff;
+            padding: 8px 22px;
+            border-radius: 999px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary:hover {
+            background: #dc2626;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.30);
+            transform: translateY(-1px);
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1.15rem;
+        }
+        .social-link:hover {
+            background: #ef4444;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+        }
+
+        .avatar-ring {
+            position: relative;
+            display: inline-block;
+        }
+        .avatar-ring::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #f97316, #f59e0b);
+            opacity: 0.6;
+        }
+
+        /* 移动端菜单 */
+        .mobile-menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 页脚 */
+        footer {
+            background: rgba(255, 255, 255, 0.60);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        /* 响应式 */
+        @media (max-width: 640px) {
+            .card { border-radius: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景层：渐变始终可见，图片作为叠加 -->
+    <div class="bg-gradient-layer"></div>
+    <div class="bg-image-layer" id="bgImage"></div>
+
+    <!-- ===== 导航栏 ===== -->
+    <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+        <div class="flex items-center justify-between h-16 px-5 sm:px-8 max-w-6xl mx-auto">
+            <!-- 左：Logo -->
+            <a href="index.html" class="flex items-center gap-3 no-underline">
+                <div class="avatar-ring">
+                    <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" 
+                         alt="头像" 
+                         class="relative w-9 h-9 rounded-full object-cover border-2 border-white">
+                </div>
+                <span class="text-lg font-semibold text-gray-800 tracking-tight">FirefairyZz</span>
+            </a>
+
+            <!-- 中：导航链接（桌面） -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link active text-sm">首页</a>
+                <a href="projects.html" class="nav-link text-sm">项目</a>
+                <a href="blog.html" class="nav-link text-sm">博客</a>
+                <a href="about.html" class="nav-link text-sm">关于</a>
+            </div>
+
+            <!-- 右：联系按钮（桌面） -->
+            <div class="hidden md:block">
+                <a href="contact.html" class="btn-primary text-sm">联系我</a>
+            </div>
+
+            <!-- 移动端汉堡 -->
+            <button class="md:hidden text-gray-600 text-xl p-1" id="menuBtn">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden mx-4 mb-3 mobile-menu overflow-hidden" id="mobileMenu">
+            <div class="flex flex-col">
+                <a href="index.html" class="nav-link active block px-4 py-3 text-sm border-b border-black/5">首页</a>
+                <a href="projects.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">项目</a>
+                <a href="blog.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">博客</a>
+                <a href="about.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">关于</a>
+                <a href="contact.html" class="block px-4 py-3 text-sm text-primary font-medium">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== 主内容 ===== -->
+    <main class="min-h-screen flex items-center justify-center px-5 sm:px-8 pt-24 pb-20">
+        <div class="w-full max-w-2xl mx-auto">
+            <div class="card p-8 sm:p-10">
+                <!-- 头像 + 名称 -->
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-7">
+                    <div class="avatar-ring shrink-0">
+                        <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" 
+                             alt="FirefairyZz" 
+                             class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-4 border-white">
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 tracking-tight">FirefairyZz</h1>
+                        <p class="text-gray-500 mt-1 text-sm">热爱生活 · 追求卓越</p>
+                        <p class="text-gray-400 mt-1 text-xs">❤️🥰😭😵‍💫🧐</p>
+                    </div>
+                </div>
+
+                <!-- 分隔线 -->
+                <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-7"></div>
+
+                <!-- 介绍文字 -->
+                <div class="text-gray-600 leading-relaxed text-[0.95rem] space-y-4">
+                    <p>
+                        大家好！我是 <strong class="text-gray-800">FirefairyZz</strong>，欢迎来到我的个人网站。
+                        我热爱生活、追求卓越，愿意在自己的领域发光发热。
+                    </p>
+                    <p>
+                        我专注于每个领域，热衷于发现未知。通过这个网站，我希望能够分享我的作品、想法和经验，与更多志同道合的朋友交流学习。
+                    </p>
+                    <p>
+                        无论是工作合作还是兴趣交流，都欢迎通过"联系我"取得联系。感谢您的访问！
+                    </p>
+                </div>
+
+                <!-- 分隔线 -->
+                <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent my-7"></div>
+
+                <!-- 社交链接 -->
+                <div class="flex gap-3 justify-center sm:justify-start">
+                    <a href="#" class="social-link" title="微博"><i class="fa fa-weibo"></i></a>
+                    <a href="#" class="social-link" title="微信"><i class="fa fa-wechat"></i></a>
+                    <a href="https://github.com/firefairyZz" target="_blank" class="social-link" title="GitHub"><i class="fa fa-github"></i></a>
+                    <a href="#" class="social-link" title="领英"><i class="fa fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== 页脚 ===== -->
+    <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-gray-400 text-xs">
+        <p>&copy; 2024 FirefairyZz &mdash; 设计与开发</p>
+    </footer>
+
+    <script>
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 背景图片
+        (function loadBackground() {
+            const bg = document.getElementById('bgImage');
+            const img = new Image();
+            // 随机获取一张高质量图片作为背景
+            img.src = 'https://uapis.cn/api/v1/random/image';
+            img.onload = () => {
+                bg.style.backgroundImage = 'url(' + img.src + ')';
+                bg.classList.add('loaded');
+            };
+            // 加载失败也没关系，渐变层始终可见
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔥</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目 - FirefairyZz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ef4444',
+                        accent: '#f97316',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .bg-gradient-layer {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 50%, #dce1eb 100%);
+        }
+        .bg-image-layer {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
+            opacity: 0; transition: opacity 1.2s ease;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        .bg-image-layer.loaded { opacity: 0.35; }
+        .bg-image-layer::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(245,247,250,0.85) 0%, rgba(228,232,240,0.70) 100%);
+        }
+
+        .nav-blur {
+            background: rgba(255,255,255,0.70); backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .nav-link {
+            position: relative; color: #555; font-weight: 450; transition: color 0.25s ease; text-decoration: none;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+            background: #ef4444; transition: width 0.3s ease; border-radius: 1px;
+        }
+        .nav-link:hover { color: #ef4444; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #ef4444; }
+        .nav-link.active::after { width: 100%; }
+
+        .btn-primary {
+            background: #ef4444; color: #fff; padding: 8px 22px; border-radius: 999px;
+            font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; text-decoration: none; display: inline-block;
+        }
+        .btn-primary:hover {
+            background: #dc2626; box-shadow: 0 4px 16px rgba(239,68,68,0.30); transform: translateY(-1px);
+        }
+
+        .avatar-ring { position: relative; display: inline-block; }
+        .avatar-ring::before {
+            content: ''; position: absolute; inset: -3px; border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #f97316, #f59e0b); opacity: 0.6;
+        }
+
+        .mobile-menu {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
+
+        footer {
+            background: rgba(255,255,255,0.60); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,0.04);
+        }
+
+        /* 项目卡片 */
+        .project-card {
+            background: rgba(255,255,255,0.75); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.02);
+            transition: all 0.35s ease; overflow: hidden; display: flex; flex-direction: column;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            border-color: rgba(239,68,68,0.15);
+        }
+        .project-card .card-img {
+            width: 100%; height: 180px; 
+            /* 默认 object-fit 由内联样式覆盖，这里留空 */
+            background: #e8ecf2;
+        }
+        .project-card .card-body {
+            padding: 20px; flex: 1; display: flex; flex-direction: column;
+        }
+        .project-tag {
+            display: inline-block; padding: 2px 10px; border-radius: 999px;
+            font-size: 0.75rem; font-weight: 500;
+            background: rgba(239,68,68,0.08); color: #ef4444;
+        }
+        .project-link {
+            color: #ef4444; font-weight: 500; font-size: 0.9rem;
+            text-decoration: none; transition: all 0.25s ease;
+            display: inline-flex; align-items: center; gap: 4px;
+        }
+        .project-link:hover { color: #dc2626; gap: 8px; }
+
+        @media (max-width: 640px) {
+            .project-card { border-radius: 16px; }
+            .project-card .card-img { height: 140px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-gradient-layer"></div>
+    <div class="bg-image-layer" id="bgImage"></div>
+
+    <!-- 导航栏 -->
+    <nav class="nav-blur fixed top-0 left-0 right-0 z-50">
+        <div class="flex items-center justify-between h-16 px-5 sm:px-8 max-w-6xl mx-auto">
+            <a href="index.html" class="flex items-center gap-3 no-underline">
+                <div class="avatar-ring">
+                    <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" alt="头像" class="relative w-9 h-9 rounded-full object-cover border-2 border-white">
+                </div>
+                <span class="text-lg font-semibold text-gray-800 tracking-tight">FirefairyZz</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link text-sm">首页</a>
+                <a href="projects.html" class="nav-link active text-sm">项目</a>
+                <a href="blog.html" class="nav-link text-sm">博客</a>
+                <a href="about.html" class="nav-link text-sm">关于</a>
+            </div>
+            <div class="hidden md:block">
+                <a href="contact.html" class="btn-primary text-sm">联系我</a>
+            </div>
+            <button class="md:hidden text-gray-600 text-xl p-1" id="menuBtn">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <div class="md:hidden hidden mx-4 mb-3 mobile-menu overflow-hidden" id="mobileMenu">
+            <div class="flex flex-col">
+                <a href="index.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">首页</a>
+                <a href="projects.html" class="nav-link active block px-4 py-3 text-sm border-b border-black/5">项目</a>
+                <a href="blog.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">博客</a>
+                <a href="about.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">关于</a>
+                <a href="contact.html" class="block px-4 py-3 text-sm text-primary font-medium">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 项目列表 -->
+    <main class="min-h-screen px-5 sm:px-8 pt-28 pb-24">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 tracking-tight">项目</h1>
+                <p class="text-gray-500 mt-2 text-sm">一些我做过的东西</p>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6 max-w-3xl mx-auto" id="project-grid">
+                <div class="text-center text-gray-400 py-10">
+                    <i class="fa fa-spinner fa-pulse"></i> 加载中...
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-gray-400 text-xs">
+        <p>&copy; 2024 FirefairyZz &mdash; 设计与开发</p>
+    </footer>
+
+    <script>
+        // 移动端菜单
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // 背景图片
+        (function loadBackground() {
+            const bg = document.getElementById('bgImage');
+            const img = new Image();
+            img.src = 'https://uapis.cn/api/v1/random/image';
+            img.onload = () => {
+                bg.style.backgroundImage = 'url(' + img.src + ')';
+                bg.classList.add('loaded');
+            };
+        })();
+
+        // ========== 动态加载项目 ==========
+        async function loadProjects() {
+            const grid = document.getElementById('project-grid');
+            try {
+                // 读取 Project/Project.txt（项目列表）
+                const txtResponse = await fetch('Project/Project.txt');
+                if (!txtResponse.ok) throw new Error('找不到 Project/Project.txt');
+                const text = await txtResponse.text();
+                const projectNames = text.split('\n')
+                    .map(line => line.trim())
+                    .filter(name => name.length > 0);
+
+                if (projectNames.length === 0) {
+                    grid.innerHTML = '<p class="text-gray-400 text-center py-10">还没有添加项目</p>';
+                    return;
+                }
+
+                // 逐个项目读取 Intro.ini
+                const cards = await Promise.all(projectNames.map(async (name) => {
+                    try {
+                        const iniResponse = await fetch(`Project/${name}/Intro.ini`);
+                        if (!iniResponse.ok) throw new Error(`找不到 ${name} 的 Intro.ini`);
+                        const iniText = await iniResponse.text();
+                        const info = parseINI(iniText);
+                        return { name, ...info };
+                    } catch (err) {
+                        console.warn(`加载项目 ${name} 失败:`, err);
+                        return null;
+                    }
+                }));
+
+                const validProjects = cards.filter(card => card !== null);
+                if (validProjects.length === 0) {
+                    grid.innerHTML = '<p class="text-gray-400 text-center py-10">暂无可用项目</p>';
+                    return;
+                }
+
+                // 生成卡片（变量 p 代表当前项目）
+                grid.innerHTML = validProjects.map(p => {
+                    // 拼接图片路径
+                    const imgSrc = (p.image && p.image.startsWith('http')) 
+                                    ? p.image 
+                                    : `Project/${p.name}/${p.image}`;
+                    
+                    // ==== 新增：根据 full_image 决定显示方式 ====
+                    const fitStyle = p.full_image ? 'contain' : 'cover';
+                    // contain 模式下加浅色背景，避免留白突兀
+                    const bgStyle = p.full_image ? 'background:#f0f0f0;' : '';
+                    
+                    const tagsHTML = (p.tags || [])
+                        .map(tag => `<span class="project-tag">${tag}</span>`)
+                        .join('\n');
+                    return `
+                    <a href="Project/${p.name}/" class="project-card no-underline">
+                        <img src="${imgSrc}" alt="${p.displayName} 封面" class="card-img" 
+                             style="object-fit: ${fitStyle}; ${bgStyle}"
+                             onerror="this.src='https://picsum.photos/600/360'">
+                        <div class="card-body">
+                            <div class="flex items-center gap-2 mb-2">
+                                ${tagsHTML}
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-1">${p.displayName}</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed flex-1">${p.intro}</p>
+                            <div class="mt-4">
+                                <span class="project-link">查看详情 <i class="fa fa-arrow-right" style="font-size:0.75rem"></i></span>
+                            </div>
+                        </div>
+                    </a>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('加载项目列表失败:', error);
+                grid.innerHTML = `<p class="text-red-400 text-center py-10">加载失败：${error.message}</p>`;
+            }
+        }
+
+        // 解析 INI 文件（已扩展支持 full_image）
+        function parseINI(iniText) {
+            const result = { 
+                displayName: '', 
+                intro: '', 
+                image: '', 
+                tags: [], 
+                full_image: false   // 默认 false（裁剪填充）
+            };
+            const lines = iniText.split('\n');
+            let currentSection = '';
+            for (let line of lines) {
+                line = line.trim();
+                if (line === '' || line.startsWith(';') || line.startsWith('#')) continue;
+                const sectionMatch = line.match(/^\[(.+)\]$/);
+                if (sectionMatch) {
+                    currentSection = sectionMatch[1].trim();
+                    continue;
+                }
+                const kvMatch = line.match(/^([^=]+)=(.*)$/);
+                if (kvMatch) {
+                    const key = kvMatch[1].trim();
+                    const value = kvMatch[2].trim();
+                    if (currentSection === 'Project') {
+                        if (key === 'name') result.displayName = value;
+                        else if (key === 'intro') result.intro = value;
+                        else if (key === 'image') result.image = value;
+                        else if (key === 'full_image') result.full_image = (value.toLowerCase() === 'true');
+                    } else if (currentSection === 'Tags') {
+                        if (/^\d+$/.test(key)) result.tags.push(value);
+                    }
+                }
+            }
+            if (!result.image) result.image = 'https://picsum.photos/600/360'; // 备用占位图
+            return result;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProjects);
+    </script>
+</body>
+</html>
