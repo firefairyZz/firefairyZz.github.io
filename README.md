@@ -26,6 +26,7 @@
 ---
 
 ## 📁 目录结构（给自己看的）
+```
 .
 ├── index.html # 首页（啥也没有，就一个欢迎）
 ├── projects.html # 项目列表
@@ -49,8 +50,7 @@
 │ └── Welcome.md # 正文
 │
 └── README.md # 就你在看的这个
-
-text
+```
 
 ---
 
@@ -118,7 +118,7 @@ text
 就算没有，我也还是会继续往里面塞东西的 😂
 
 **GitHub**：[firefairyZz](https://github.com/firefairyZz)  
-**爱发电**：https://afdian.net/@你的ID （要是真有人投喂我会感动哭）
+**爱发电**：https://afdian.com/a/firefairy （要是真有人投喂我会感动哭）
 
 ---
 
