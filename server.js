@@ -33,9 +33,13 @@ const MIME = {
     '.svg': 'image/svg+xml',
     '.webp': 'image/webp',
     '.ico': 'image/x-icon',
+    '.woff2': 'font/woff2',
+    '.woff': 'font/woff',
+    '.ttf': 'font/ttf',
+    '.eot': 'application/vnd.ms-fontobject',
 };
 
-const STATIC_EXTS = ['.js', '.css', '.md', '.ini', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.json', '.txt'];
+const STATIC_EXTS = ['.js', '.css', '.md', '.ini', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.json', '.txt', '.woff2', '.woff', '.ttf', '.eot'];
 
 function mime(p) {
     return MIME[path.extname(p).toLowerCase()] || 'application/octet-stream';
