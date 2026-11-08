@@ -1,0 +1,204 @@
+/* =========================================================
+   Component/detail.css — 博客 / 项目详情页公共样式
+   由 Blog/*、Project/* 下的薄壳页面统一引入
+   ========================================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.bg-gradient-layer {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 50%, #dce1eb 100%);
+}
+
+.bg-image-layer {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
+    opacity: 0; transition: opacity 1.2s ease;
+    background-size: cover; background-position: center; background-repeat: no-repeat;
+}
+
+.bg-image-layer.loaded { opacity: 0.35; }
+
+.bg-image-layer::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(245,247,250,0.85) 0%, rgba(228,232,240,0.70) 100%);
+}
+
+.nav-blur {
+    background: rgba(255,255,255,0.70); backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px); border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.nav-link {
+    position: relative; color: #555; font-weight: 450; transition: color 0.25s ease; text-decoration: none;
+}
+
+.nav-link::after {
+    content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px;
+    background: #ef4444; transition: width 0.3s ease; border-radius: 1px;
+}
+
+.nav-link:hover { color: #ef4444; }
+.nav-link:hover::after { width: 100%; }
+.nav-link.active { color: #ef4444; }
+.nav-link.active::after { width: 100%; }
+
+.btn-primary {
+    background: #ef4444; color: #fff; padding: 8px 22px; border-radius: 999px;
+    font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; text-decoration: none; display: inline-block;
+}
+
+.btn-primary:hover {
+    background: #dc2626; box-shadow: 0 4px 16px rgba(239,68,68,0.30); transform: translateY(-1px);
+}
+
+.avatar-ring { position: relative; display: inline-block; }
+
+.avatar-ring::before {
+    content: ''; position: absolute; inset: -3px; border-radius: 50%;
+    background: linear-gradient(135deg, #ef4444, #f97316, #f59e0b); opacity: 0.6;
+}
+
+.mobile-menu {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+footer {
+    background: rgba(255,255,255,0.60); backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,0.04);
+}
+
+.detail-card {
+    background: rgba(255,255,255,0.75); backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5);
+    border-radius: 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04), 0 1px 4px rgba(0,0,0,0.02);
+}
+
+.tag {
+    display: inline-block; padding: 3px 12px; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 500;
+    background: rgba(239,68,68,0.08); color: #ef4444;
+}
+
+.back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #666; text-decoration: none; font-size: 0.9rem;
+    transition: all 0.25s ease;
+}
+
+.back-link:hover { color: #ef4444; gap: 10px; }
+
+/* 正文样式 */
+.project-content h2 {
+    font-size: 1.25rem; font-weight: 600; color: #1f2937;
+    margin-top: 2rem; margin-bottom: 0.75rem;
+}
+
+.project-content h3 {
+    font-size: 1.1rem; font-weight: 600; color: #374151;
+    margin-top: 1.5rem; margin-bottom: 0.5rem;
+}
+
+.project-content p {
+    color: #4b5563; line-height: 1.7; margin-bottom: 1rem;
+}
+
+.project-content ul, .project-content ol {
+    margin-bottom: 1rem; padding-left: 1.5rem; color: #4b5563;
+}
+
+.project-content a {
+    color: #ef4444; text-decoration: underline;
+}
+
+.project-content img {
+    max-width: 100%; border-radius: 12px; margin: 1rem 0;
+}
+
+.project-content pre {
+    background: #f3f4f6; padding: 1rem; border-radius: 12px; overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.project-content code {
+    background: #f3f4f6; padding: 0.2em 0.4em; border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.project-content blockquote {
+    border-left: 4px solid #ef4444; padding-left: 1rem;
+    color: #6b7280; margin: 1rem 0;
+}
+
+/* 按钮通用样式：统一高度、间距 */
+.github-btn, .afdian-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0 20px;
+    height: 42px;
+    line-height: 1;
+    border-radius: 12px;
+    transition: all 0.3s;
+    text-decoration: none !important;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+}
+
+/* GitHub 按钮：深灰底白字 */
+.github-btn { background: #1f2937 !important; color: #fff !important; }
+.github-btn:hover { background: #374151 !important; }
+
+/* 爱发电按钮：白底 + 紫色边框 + 紫色文字 */
+.afdian-btn {
+    background: #ffffff !important;
+    color: #8E67DB !important;
+    border: 2px solid #8E67DB !important;
+}
+.afdian-btn:hover {
+    background: #f5f0ff !important;
+    border-color: #7c5cbf !important;
+    color: #7c5cbf !important;
+}
+
+.afdian-icon { height: 20px; width: auto; }
+
+/* 图标功能块 */
+.icon-feature {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.icon-feature:last-child { border-bottom: none; }
+.icon-feature .feature-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(239,68,68,0.08); color: #ef4444;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+}
+
+/* 技术栈框架 */
+.tech-frame {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px; margin-top: 1rem;
+}
+.tech-frame .tech-item {
+    background: #f9fafb; border-radius: 12px; padding: 16px;
+    text-align: center; font-size: 0.9rem;
+}
+.tech-item .tech-name { font-weight: 600; color: #1f2937; }
+.tech-item .tech-desc { color: #9ca3af; font-size: 0.8rem; margin-top: 4px; }
+
+@media (max-width: 640px) {
+    .detail-card { border-radius: 20px; }
+}
