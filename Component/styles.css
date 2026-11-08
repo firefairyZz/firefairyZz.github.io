@@ -1,0 +1,185 @@
+/* =========================================================
+   Component/styles.css — 全站共享样式
+   按钮、图片注释、Lightbox 等
+   ========================================================= */
+
+/* ---------- 下载按钮通用 ---------- */
+.github-btn, .afdian-btn, .win64-btn, .android-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0 20px;
+    height: 42px;
+    line-height: 1;
+    border-radius: 12px;
+    transition: all 0.3s;
+    text-decoration: none !important;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+}
+
+/* GitHub 按钮 — 深灰 */
+.github-btn { background: #1f2937 !important; color: #fff !important; }
+.github-btn:hover { background: #374151 !important; }
+
+/* 爱发电按钮 — 白底紫边 */
+.afdian-btn {
+    background: #ffffff !important;
+    color: #8E67DB !important;
+    border: 2px solid #8E67DB !important;
+}
+.afdian-btn:hover {
+    background: #f5f0ff !important;
+    border-color: #7c5cbf !important;
+    color: #7c5cbf !important;
+}
+.afdian-icon { height: 20px; width: auto; }
+
+/* Windows 下载按钮 — 蓝色（修复黑色背景！） */
+.win64-btn {
+    background: #0078D4 !important;
+    color: #fff !important;
+    border: none !important;
+}
+.win64-btn:hover { background: #106EBE !important; }
+
+/* Android 下载按钮 — 绿色 */
+.android-btn {
+    background: #3DDC84 !important;
+    color: #fff !important;
+    border: none !important;
+}
+.android-btn:hover { background: #2FBF71 !important; }
+
+/* ---------- icon 功能块 ---------- */
+.icon-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.icon-feature:last-child { border-bottom: none; }
+.icon-feature .feature-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(239,68,68,0.08);
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* ---------- 技术栈网格 ---------- */
+.tech-frame {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 1rem;
+}
+.tech-frame .tech-item {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.tech-item .tech-name { font-weight: 600; color: #1f2937; }
+.tech-item .tech-desc { color: #9ca3af; font-size: 0.8rem; margin-top: 4px; }
+
+/* ---------- 图片扩展语法 ---------- */
+.md-image-wrap { text-align: center; margin: 1rem 0; }
+.md-image-wrap img {
+    max-width: 100%;
+    border-radius: 12px;
+    cursor: zoom-in;
+    transition: transform 0.2s;
+}
+/* 强制图片居中 — display:block + margin:auto 无视父级 text-align */
+.md-image-wrap img {
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+.md-image-wrap .md-image-caption {
+    display: block;
+    margin-top: 8px;
+    color: #9ca3af;
+    font-size: 0.8rem;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ---------- Lightbox 图片查看器 ---------- */
+.lightbox-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    cursor: zoom-out;
+}
+.lightbox-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.lightbox-overlay img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+    cursor: grab;
+}
+.lightbox-overlay img:active { cursor: grabbing; }
+.lightbox-close {
+    position: absolute;
+    top: 20px; right: 24px;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    background: rgba(255,255,255,0.15);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    user-select: none;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); }
+.lightbox-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    max-width: 80%;
+    text-align: center;
+}
+
+/* ---------- project-content 基础排版 ---------- */
+.project-content h2 { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin-top: 2rem; margin-bottom: 0.75rem; }
+.project-content h3 { font-size: 1.1rem; font-weight: 600; color: #374151; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+.project-content p { color: #4b5563; line-height: 1.7; margin-bottom: 1rem; }
+.project-content ul, .project-content ol { margin-bottom: 1rem; padding-left: 1.5rem; color: #4b5563; }
+.project-content a { color: #ef4444; text-decoration: underline; }
+.project-content img { max-width: 100%; border-radius: 12px; margin: 1rem 0; }
+.project-content pre { background: #f3f4f6; padding: 1rem; border-radius: 12px; overflow-x: auto; margin-bottom: 1rem; }
+.project-content code { background: #f3f4f6; padding: 0.2em 0.4em; border-radius: 4px; font-size: 0.9em; }
+.project-content blockquote { border-left: 4px solid #ef4444; padding-left: 1rem; color: #6b7280; margin: 1rem 0; }
+
+/* 全局图片 cursor 提示 */
+.project-content img, #project-detail img, article img { cursor: zoom-in; }

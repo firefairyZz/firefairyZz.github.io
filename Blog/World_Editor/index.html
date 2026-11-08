@@ -7,8 +7,13 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../../Component/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
+
+    <script src="../../Component/i18n.js"></script>
+    <script src="../../Component/site.js"></script>
+    <script src="../../Component/markdown.js"></script>
+    <script src="../../Component/lightbox.js"></script>    <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -85,7 +90,7 @@
             <a href="../../index.html" class="flex items-center gap-3 no-underline">
                 <div class="avatar-ring">
                     <img src="../../images/face.jpg" alt="头像" class="relative w-9 h-9 rounded-full object-cover border-2 border-white"
-                         onerror="this.src='https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg'">
+                         onerror="this.src='../../images/face.jpg'">
                 </div>
                 <span class="text-lg font-semibold text-gray-800 tracking-tight">FirefairyZz</span>
             </a>
@@ -180,7 +185,7 @@
             return result;
         }
 
-        function preprocessCustomTags(mdText) {
+        function _inlinePreprocessTags(mdText) {
             mdText = mdText.replace(/\[header_image\].*?\[\/header_image\]\s*/g, '');
             mdText = mdText.replace(/\[tag\].*?\[\/tag\]\s*/g, '');
             mdText = mdText.replace(/\[githublink\](.*?)\[\/githublink\]\((.*?)\)/g, (m, text, url) => `<a href="${url}" target="_blank" class="github-btn"><i class="fa fa-github"></i> ${text}</a>`);
@@ -229,8 +234,9 @@
                 const mdRes = await fetch(`${articleName}.md`);
                 if (!mdRes.ok) throw new Error(`找不到 ${articleName}.md`);
                 let mdText = await mdRes.text();
-                mdText = preprocessCustomTags(mdText);
+                mdText = window.preprocessCustomTags(mdText, document.documentElement.lang || 'zh_CN');
                 const htmlContent = marked.parse(mdText);
+                if (window.bindLightbox) window.bindLightbox();
 
                 document.title = `${info.title || articleName} - FirefairyZz`;
 

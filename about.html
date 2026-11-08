@@ -7,9 +7,14 @@
     <title>关于 - FirefairyZz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="Component/styles.css">
     <script>
         tailwind.config = {
-            theme: {
+
+    <script src="Component/i18n.js"></script>
+    <script src="Component/site.js"></script>
+    <script src="Component/markdown.js"></script>
+    <script src="Component/lightbox.js"></script>            theme: {
                 extend: {
                     colors: {
                         primary: '#ef4444',
@@ -111,6 +116,8 @@
             .skill-tag { font-size: 0.75rem; padding: 4px 10px; }
         }
     </style>
+    <script src="Component/i18n.js"></script>
+<script src="Component/lightbox.js"></script>
 </head>
 <body>
     <div class="bg-gradient-layer"></div>
@@ -120,18 +127,25 @@
         <div class="flex items-center justify-between h-16 px-5 sm:px-8 max-w-6xl mx-auto">
             <a href="index.html" class="flex items-center gap-3 no-underline">
                 <div class="avatar-ring">
-                    <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" alt="头像" class="relative w-9 h-9 rounded-full object-cover border-2 border-white">
+                    <img src="images/face.jpg" alt="头像" class="relative w-9 h-9 rounded-full object-cover border-2 border-white">
                 </div>
                 <span class="text-lg font-semibold text-gray-800 tracking-tight">FirefairyZz</span>
             </a>
             <div class="hidden md:flex items-center gap-8">
-                <a href="index.html" class="nav-link text-sm">首页</a>
-                <a href="projects.html" class="nav-link text-sm">项目</a>
-                <a href="blog.html" class="nav-link text-sm">博客</a>
-                <a href="about.html" class="nav-link active text-sm">关于</a>
+                <a href="index.html" class="nav-link text-sm" data-i18n="nav.home">首页</a>
+                <a href="projects.html" class="nav-link text-sm" data-i18n="nav.projects">项目</a>
+                <a href="blog.html" class="nav-link text-sm" data-i18n="nav.blog">博客</a>
+                <a href="about.html" class="nav-link active text-sm" data-i18n="nav.about">关于</a>
             </div>
             <div class="hidden md:block">
-                <a href="contact.html" class="btn-primary text-sm">联系我</a>
+                <div class="lang-switch" style="display:inline-flex;align-items:center;gap:4px;margin-right:8px;">
+                <button class="lang-btn" data-lang-btn="zh_CN" title="切换到中文"
+                    style="padding:4px 10px;border-radius:6px;border:1px solid #e5e7eb;background:#fff;color:#666;font-size:0.8rem;cursor:pointer;transition:all 0.2s;">中</button>
+                <span style="color:#ccc;font-size:0.75rem;">|</span>
+                <button class="lang-btn" data-lang-btn="en" title="Switch to English"
+                    style="padding:4px 10px;border-radius:6px;border:1px solid #e5e7eb;background:#fff;color:#666;font-size:0.8rem;cursor:pointer;transition:all 0.2s;">EN</button>
+            </div>
+                <a href="contact.html" class="btn-primary text-sm" data-i18n="btn.contact">联系我</a>
             </div>
             <button class="md:hidden text-gray-600 text-xl p-1" id="menuBtn">
                 <i class="fa fa-bars"></i>
@@ -139,10 +153,10 @@
         </div>
         <div class="md:hidden hidden mx-4 mb-3 mobile-menu overflow-hidden" id="mobileMenu">
             <div class="flex flex-col">
-                <a href="index.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">首页</a>
-                <a href="projects.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">项目</a>
-                <a href="blog.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5">博客</a>
-                <a href="about.html" class="nav-link active block px-4 py-3 text-sm border-b border-black/5">关于</a>
+                <a href="index.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5" data-i18n="nav.home">首页</a>
+                <a href="projects.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5" data-i18n="nav.projects">项目</a>
+                <a href="blog.html" class="nav-link block px-4 py-3 text-sm border-b border-black/5" data-i18n="nav.blog">博客</a>
+                <a href="about.html" class="nav-link active block px-4 py-3 text-sm border-b border-black/5" data-i18n="nav.about">关于</a>
                 <a href="contact.html" class="block px-4 py-3 text-sm text-primary font-medium">联系我</a>
             </div>
         </div>
@@ -160,7 +174,7 @@
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                     <div class="flex-shrink-0">
                         <div class="avatar-ring">
-                            <img src="https://raw.githubusercontent.com/firefairyZz/firefairyZz.github.io/web/images/face.jpg" alt="头像" class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-3 border-white shadow-md">
+                            <img src="images/face.jpg" alt="头像" class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover border-3 border-white shadow-md">
                         </div>
                     </div>
                     <div class="text-center sm:text-left flex-1">
@@ -251,7 +265,7 @@
     </main>
 
     <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-gray-400 text-xs">
-        <p>&copy; 2024 FirefairyZz &mdash; 练习作品</p>
+        <p>&copy; 2024 FirefairyZz &mdash; <span data-i18n="footer.practice">练习作品</span></p>
     </footer>
 
     <script>

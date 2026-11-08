@@ -1,16 +1,26 @@
 [header_image]Project\World_Editor\header_image.png[/header_image]
 
 [tag]Electron|JavaScript|桌面应用[/tag]
-# World Editor
-一个基于 Electron 的轻量级世界构建编辑器，专为创作者设计。当前版本 **v0.7.0**。
 
-[githublink]查看源码[/githublink](https://github.com/firefairyZz/WorldEditor_WE_)[afdian]暂时支持不了[/afdian](https://ifdian.net/)
+一个基于 Electron 的轻量级世界构建编辑器，专为创作者设计。它不追求大而全的功能堆砌，而是专注于“世界观构建”这一件事。
 
-## 项目简介
+*代码版本:0.9.0-alpha | 发行版本:0.6.0.2*
+
+---
+
+###
+[githublink]查看源码[/githublink](https://github.com/firefairyZz/WorldEditor_WE_)[afdian]支持我[/afdian](https://ifdian.net/a/firefairy)
+
 World Editor 是一个基于 Electron 的桌面应用，面向创作者的世界构建与写作工具。支持项目管理、富文本/Markdown 双模式编辑、文件树浏览、标签系统、多主题、账户系统等功能。
-
+![alt {:500px;启程界面}](image/start.png)
 项目采用原生 JavaScript 开发，渲染进程逻辑清晰模块化。支持多格式导出（Markdown / HTML / PDF / ZIP），拥有 13 种预设主题和自定义配色，支持中/英/日/俄四国语言。
+![alt {:500px;关于界面}](image/about.png)
 
+## 下载
+
+[win64]Windows安装包[/win64](https://github.com/firefairyZz/WorldEditor_WE_/releases/download/v0.6.0/World.Editor.Setup.0.6.0.exe)[android]Android安装包(暂无)[/android](https://example.com)
+
+---
 
 ## 核心功能
 

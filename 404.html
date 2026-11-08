@@ -7,9 +7,14 @@
     <title>404 - FirefairyZz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="Component/styles.css">
     <script>
         tailwind.config = {
-            theme: {
+
+    <script src="Component/i18n.js"></script>
+    <script src="Component/site.js"></script>
+    <script src="Component/markdown.js"></script>
+    <script src="Component/lightbox.js"></script>            theme: {
                 extend: {
                     colors: { primary: '#ef4444', accent: '#f97316' },
                     fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] },
@@ -57,6 +62,8 @@
             border-top: 1px solid rgba(0, 0, 0, 0.04);
         }
     </style>
+    <script src="Component/i18n.js"></script>
+<script src="Component/lightbox.js"></script>
 </head>
 <body>
 
@@ -86,7 +93,7 @@
     </main>
 
     <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-gray-400 text-xs">
-        <p>&copy; 2024 FirefairyZz &mdash; 设计与开发</p>
+        <p>&copy; 2024 FirefairyZz &mdash; <span data-i18n="footer.rights">设计与开发</span></p>
     </footer>
 
     <script>
